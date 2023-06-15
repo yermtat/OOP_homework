@@ -5,9 +5,6 @@
 using namespace std;
 
 
-//template <class T1>
-//class Node;
-
 template <class T>
 class LinkedList
 {
@@ -101,44 +98,6 @@ void LinkedList<T>::remove()
 		delete nodePtr;
 	}
 }
-
-
-//template <class T>
-//LinkedList<T>::Node<T>* LinkedList<T>::find(const T& value) const
-//{
-//	for (Node<T>* nodePtr = head; nodePtr != nullptr; nodePtr = nodePtr->next)
-//	{
-//		if (nodePtr->value == value) {
-//			return nodePtr;
-//		}
-//	}
-//
-//	return nullptr;
-//}
-
-//template <class T>
-//LinkedList<T>::Node<T>* LinkedList<T>::addAfter(const T& value, Node<T>* afterPtr)
-//{
-//	if (afterPtr == nullptr) return nullptr;
-//
-//	Node<T>* nodePtr = new Node<T>(value);
-//	nodePtr->next = afterPtr->next;
-//	afterPtr->next = nodePtr;
-//	return afterPtr->next;
-//}
-
-//template <class T>
-//LinkedList<T>::Node<T>* LinkedList<T>::removeAfter(Node<T> afterPtr)
-//{
-//	if (afterPtr != nullptr && afterPtr->next != nullptr)
-//	{
-//		Node<T>* nodePtr = afterPtr->next;
-//		afterPtr->next = afterPtr->next->next;
-//		delete nodePtr;
-//	}
-//
-//	return afterPtr;
-//}
 
 template <class T>
 void LinkedList<T>::clear()

@@ -14,7 +14,7 @@ int main() {
 	list.remove();
 	list.print();
 
-	/*Node<int>* node = list.find(5);
+	LinkedList<int>::Node<int>* node = list.find(5);
 	if (node != 0) {
 		node->value = 35;
 	}
@@ -23,7 +23,7 @@ int main() {
 	list.addAfter(135, node);
 	list.print();
 	list.clear();
-	list.print();*/
+	list.print();
 
 
 }
