@@ -17,9 +17,9 @@ int main() {
 	Book book("The Hobbit", 1938, "John Tolkien", character);*/
 
 
-	/*Floor floor("wood", "brown");
+	Floor floor("wood", "brown");
 	Livingroom livingroom(true, true, 20, floor);
-	Bedroom bedroom(true, true, floor);*/
+	Bedroom bedroom(true, true, floor);
 
 
 }
