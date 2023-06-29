@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "homework6 queue", "homework
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "homework7 inheritance", "homework7 inheritance\homework7 inheritance.vcxproj", "{D8FA81C0-F7D8-4C03-8067-4ED9497BD73A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "homework8 string", "homework8 string\homework8 string.vcxproj", "{12A7008F-7DEE-468E-BA73-EDB4C3C035C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -81,6 +83,14 @@ Global
 		{D8FA81C0-F7D8-4C03-8067-4ED9497BD73A}.Release|x64.Build.0 = Release|x64
 		{D8FA81C0-F7D8-4C03-8067-4ED9497BD73A}.Release|x86.ActiveCfg = Release|Win32
 		{D8FA81C0-F7D8-4C03-8067-4ED9497BD73A}.Release|x86.Build.0 = Release|Win32
+		{12A7008F-7DEE-468E-BA73-EDB4C3C035C7}.Debug|x64.ActiveCfg = Debug|x64
+		{12A7008F-7DEE-468E-BA73-EDB4C3C035C7}.Debug|x64.Build.0 = Debug|x64
+		{12A7008F-7DEE-468E-BA73-EDB4C3C035C7}.Debug|x86.ActiveCfg = Debug|Win32
+		{12A7008F-7DEE-468E-BA73-EDB4C3C035C7}.Debug|x86.Build.0 = Debug|Win32
+		{12A7008F-7DEE-468E-BA73-EDB4C3C035C7}.Release|x64.ActiveCfg = Release|x64
+		{12A7008F-7DEE-468E-BA73-EDB4C3C035C7}.Release|x64.Build.0 = Release|x64
+		{12A7008F-7DEE-468E-BA73-EDB4C3C035C7}.Release|x86.ActiveCfg = Release|Win32
+		{12A7008F-7DEE-468E-BA73-EDB4C3C035C7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
