@@ -1,15 +1,14 @@
 #include "String.h"
 
-void String::print() {
-	cout << str << endl;
-}
 
+// helping function
 int count_capacity(const int& size) {
 	return size <= 15 ? 15 : ((size / 15) + 1) * 15 + 1;
 }
 
+#pragma region constructors
 
-String::String() : str(new char[15]), m_size(0), m_capacity(15) {
+String::String() : str(new char[16]), m_size(0), m_capacity(15) {
 	str[m_size] = '\0';
 }
 
@@ -39,6 +38,25 @@ String::String(int size, char symbol) : m_size(size), m_capacity(count_capacity(
 }
 
 
+String::String(const String& str) : m_size(str.m_size), m_capacity(str.m_capacity), 
+	str(new char[str.m_capacity + 1]) 
+{
+	strcpy_s(this->str, m_capacity + 1, str.str);
+}
+
+String::String(String&& str) : m_size(str.m_size), m_capacity(str.m_capacity), str(str.str) {
+
+	str.m_size = 0;
+	str.m_capacity = 0;
+	str.str = nullptr;
+	cout << "it worked" << endl;
+}
+
+#pragma endregion
+
+
+#pragma region methods
+
 int String::size() {
 	return m_size;
 }
@@ -52,11 +70,11 @@ void String::clear() {
 	str[m_size] = NULL;
 }
 
-char String::at(int index) {
+char& String::at(int index) {
 	return str[index];
 }
 
-void String::insert(char symb) {
+String& String::insert(char symb) {
 
 	if (m_size < m_capacity) {
 		str[m_size] = symb;
@@ -76,9 +94,11 @@ void String::insert(char symb) {
 		delete[] str;
 		str = tmp;
 	}
+
+	return *this;
 }
 
-void String::insert(int index, char symb) {
+String& String::insert(int index, char symb) {
 
 	if (m_size == m_capacity) {
 		m_capacity = count_capacity(m_size + 1);
@@ -101,9 +121,11 @@ void String::insert(int index, char symb) {
 
 	delete[] str;
 	str = tmp;
+
+	return *this;
 }
 
-void String::insert(int index, char symb, int count) {
+String& String::insert(int index, char symb, int count) {
 
 	if (m_size + count > m_capacity) {
 		m_capacity = count_capacity(m_size + count);
@@ -129,9 +151,11 @@ void String::insert(int index, char symb, int count) {
 	m_size += count;
 	delete[] str;
 	str = tmp;
+
+	return *this;
 }
 
-void String::insert(int index, const char* substr) {
+String& String::insert(int index, const char* substr) {
 
 	int sublen = strlen(substr);
 
@@ -158,11 +182,15 @@ void String::insert(int index, const char* substr) {
 	m_size += sublen;
 	delete[] str;
 	str = tmp;
+
+	return *this;
 }
 
-void String::insert(int index, const String substr) {
+String& String::insert(int index, const String substr) {
 
 	this->insert(index, substr.str);
+
+	return *this;
 }
 
 size_t String::find(const String substr) {
@@ -197,3 +225,177 @@ size_t String::rfind(const String substr) {
 	return -1;
 }
 
+#pragma endregion
+
+
+#pragma region operators
+
+String operator+(const String& left, const String& right) {
+
+	char* tmp = new char[left.m_capacity + 1];
+	strcpy_s(tmp, left.m_capacity + 1, left.str);
+
+	strcat_s(tmp, left.m_capacity + 1, right.str);
+
+	return String(tmp);
+
+}
+
+String& String::operator+=(const String& substr) {
+	
+	if (m_size + substr.m_size > m_capacity) {
+
+		m_capacity = count_capacity(m_size + substr.m_size);
+		char* tmp = new char[m_capacity + 1];
+		strcpy_s(tmp, m_capacity + 1, str);
+
+		delete[] str;
+		str = tmp;
+	}
+
+	m_size += substr.m_size;
+	strcat_s(str, m_capacity + 1, substr.str);
+
+	return *this;
+}
+
+String& String::operator+=(const char* substr) {
+
+	int sublen = strlen(substr);
+
+	if (m_size + sublen > m_capacity) {
+
+		m_capacity = count_capacity(m_size + sublen);
+		char* tmp = new char[m_capacity + 1];
+		strcpy_s(tmp, m_capacity + 1, str);
+
+		delete[] str;
+		str = tmp;
+	}
+
+	m_size += sublen;
+
+	strcat_s(str, m_capacity + 1, substr);
+
+	return *this;
+}
+
+char& String::operator[] (size_t index) {
+
+	return str[index];
+}
+
+String& String::operator= (const String& str) {
+
+	if (this == &str) {
+		return *this;
+	}
+
+	if (m_capacity < str.m_capacity) {
+		m_capacity = str.m_capacity;
+		delete[] this->str;
+		this->str = new char[m_capacity + 1];
+	}
+
+	m_size = str.m_size;
+	strcpy_s(this->str, m_capacity + 1, str.str);
+
+	return *this;
+}
+
+String& String::operator= (const char* str) {
+
+	int sublen = strlen(str);
+
+	if (m_capacity < sublen) {
+		m_capacity = count_capacity(sublen);
+		delete[] this->str;
+		this->str = new char[m_capacity + 1];
+	}
+
+	m_size = sublen;
+	strcpy_s(this->str, m_capacity + 1, str);
+
+	return *this;
+}
+
+bool operator== (const String& lhs, const String& rhs) {
+	return strcmp(lhs.str, rhs.str) == 0;
+}
+bool operator== (const char* lhs, const String& rhs) {
+	return strcmp(lhs, rhs.str) == 0;
+}
+bool operator== (const String& lhs, const char* rhs) {
+	return strcmp(lhs.str, rhs) == 0;
+}
+
+
+bool operator!= (const String& lhs, const String& rhs) {
+	return !(strcmp(lhs.str, rhs.str) == 0);
+}
+bool operator!= (const char* lhs, const String& rhs) {
+	return !(strcmp(lhs, rhs.str) == 0);
+}
+bool operator!= (const String& lhs, const char* rhs) {
+	return !(strcmp(lhs.str, rhs) == 0);
+}
+
+
+bool operator<  (const String& lhs, const String& rhs) {
+	return strcmp(lhs.str, rhs.str) == -1;
+}
+bool operator<  (const char* lhs, const String& rhs) {
+	return strcmp(lhs, rhs.str) == -1;
+}
+bool operator<  (const String& lhs, const char* rhs) {
+	return strcmp(lhs.str, rhs) == -1;
+}
+
+
+bool operator<= (const String& lhs, const String& rhs) {
+	return strcmp(lhs.str, rhs.str) <= 0;
+}
+bool operator<= (const char* lhs, const String& rhs) {
+	return strcmp(lhs, rhs.str) <= 0;
+}
+bool operator<= (const String& lhs, const char* rhs) {
+	return strcmp(lhs.str, rhs) <= 0;
+}
+
+
+bool operator>  (const String& lhs, const String& rhs) {
+	return strcmp(lhs.str, rhs.str) == 1;
+}
+bool operator>  (const char* lhs, const String& rhs) {
+	return strcmp(lhs, rhs.str) == 1;
+}
+bool operator>  (const String& lhs, const char* rhs) {
+	return strcmp(lhs.str, rhs) == 1;
+}
+
+
+bool operator>= (const String& lhs, const String& rhs) {
+	return strcmp(lhs.str, rhs.str) >= 0;
+}
+bool operator>= (const char* lhs, const String& rhs) {
+	return strcmp(lhs, rhs.str) >= 0;
+}
+bool operator>= (const String& lhs, const char* rhs) {
+	return strcmp(lhs.str, rhs) >= 0;
+}
+
+ostream& operator<< (ostream& output, const String& str) {
+	output << str.str;
+	return output;
+}
+
+istream& operator>> (istream& input, String& str) {
+	char* tmp = new char[str.m_capacity + 1];
+	input >> tmp;
+
+	String str_tmp(tmp);
+	str = str_tmp;
+	return input;
+}
+
+#pragma endregion
